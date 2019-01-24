@@ -1,0 +1,11 @@
+{
+  "server":{
+
+  },
+  "gitlab_config":{
+    "token":"demo"
+  },
+  "github_config":{
+    "token":"demo"
+  }
+}

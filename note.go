@@ -15,7 +15,7 @@ var testThisReg = regexp.MustCompile("^test this$")
 
 type NoteHook struct {
 	ObjectKind       string `json:"object_kind"`
-	ProjectID        string `json:"project_id"`
+	ProjectID        int    `json:"project_id"`
 	ObjectAttributes struct {
 		ID           int    `json:"id"`
 		Note         string `json:"note"`
@@ -57,7 +57,7 @@ func (s *CodebotServer) handleNote(r *http.Request) {
 		noteContent := mergeRequestNote.ObjectAttributes.Note
 		if testThisReg.MatchString(strings.ToLower(noteContent)) {
 			// trigger CI
-			s.TriggerJenkins(NoteHookEvent, r)
+			s.TriggerJenkins(NoteHookEvent, r.Body)
 		}
 
 	case "Issue":

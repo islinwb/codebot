@@ -8,12 +8,17 @@ import (
 	"github.com/golang/glog"
 )
 
-func (s *CodebotServer) TriggerJenkins(xGitlabEvent string, r *http.Request) {
+func (s *CodebotServer) TriggerJenkins(xGitlabEvent string, body io.Reader) {
 	headers := make(map[string]string)
 	headers["Content-Type"] = "application/json"
 	headers["Accept"] = "application/json"
 	headers["X-Gitlab-Event"] = xGitlabEvent
-	req, err := NewRequest(http.MethodPost, "", headers, r.Body)
+	b, err := ioutil.ReadAll(body)
+	if err != nil {
+		glog.Errorf("fail to read request body: %v", err)
+	}
+	glog.Infof("request body: %s", string(b))
+	req, err := NewRequest(http.MethodPost, s.JenkinsMap[0].JenkinsAddr, headers, body)
 	if err != nil {
 		glog.Errorf("fail to make new request: %v", err)
 	}
@@ -32,8 +37,8 @@ func NewRequest(method, url string, headers map[string]string, body io.Reader) (
 		return nil, err
 	}
 	for k, v := range headers {
-		// req.Header.Set() ?
-		req.Header.Add(k, v)
+		// req.Header.Add() ?
+		req.Header.Set(k, v)
 	}
 
 	return req, nil

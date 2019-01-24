@@ -21,5 +21,5 @@ func (s *CodebotServer) handleMergeRequest(r *http.Request) {
 		glog.Errorf("fail to unmarshal as MergeEvent: %v", err)
 		return
 	}
-	s.TriggerJenkins(MergeRequestHookEvent, r)
+	s.TriggerJenkins(MergeRequestHookEvent, r.Body)
 }

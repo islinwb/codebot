@@ -1,11 +1,16 @@
 {
-  "server":{
-
-  },
-  "gitlab_config":{
-    "token":"demo"
-  },
-  "github_config":{
-    "token":"demo"
-  }
+  "addr": ":3000",
+  "token":"",
+  "jenkins_map": [
+    {
+      "target_branch": "",
+      "label": "",
+      "jenkins_addr": ""
+    },
+    {
+      "target_branch": "",
+      "label": "",
+      "jenkins_addr": ""
+    }
+  ]
 }

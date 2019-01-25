@@ -2,6 +2,14 @@
 
 
 [[projects]]
+  branch = "master"
+  digest = "1:f9bb4fba309ed75573053608ea00f16c6b5764d2accbad0ce27189b8edcba934"
+  name = "github.com/araddon/dateparse"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "21df004e09ca46e07ce99bbba1e8c2422ba4ecf9"
+
+[[projects]]
   digest = "1:cb12ab9443677acf9b15dbcb144dbb87a50883571f9d012b7d7a40c16e875e80"
   name = "github.com/fsnotify/fsnotify"
   packages = ["."]
@@ -37,6 +45,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/araddon/dateparse",
     "github.com/fsnotify/fsnotify",
     "github.com/golang/glog",
     "github.com/xanzy/go-gitlab",

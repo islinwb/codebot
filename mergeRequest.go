@@ -2,24 +2,18 @@ package main
 
 import (
 	"encoding/json"
-	"io/ioutil"
-	"net/http"
 
 	"github.com/golang/glog"
 	"github.com/xanzy/go-gitlab"
 )
 
-func (s *CodebotServer) handleMergeRequest(r *http.Request) {
+func (s *CodebotServer) handleMergeRequest(data []byte) {
 	var mergeRequestEvent gitlab.MergeEvent
-	b, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		glog.Errorf("fail to read request body: %v", err)
-		return
-	}
-	err = json.Unmarshal(b, &mergeRequestEvent)
+	data = FormatDateToRFC3399(data)
+	err := json.Unmarshal(data, &mergeRequestEvent)
 	if err != nil {
 		glog.Errorf("fail to unmarshal as MergeEvent: %v", err)
 		return
 	}
-	s.TriggerJenkins(MergeRequestHookEvent, r.Body)
+	s.TriggerJenkins(MergeRequestHookEvent, data)
 }

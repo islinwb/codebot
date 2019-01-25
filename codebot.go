@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/fsnotify/fsnotify"
-
 	"github.com/golang/glog"
 )
 
@@ -84,16 +83,21 @@ const (
 
 func (s *CodebotServer) Handler(w http.ResponseWriter, r *http.Request) {
 	eventType := r.Header.Get("X-Gitlab-Event")
+	b, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		glog.Errorf("fail to read request body: %v", err)
+	}
+	defer r.Body.Close()
 
 	switch eventType {
 	case PushHookEvent:
 		glog.Infof("It's a Push event")
 	case NoteHookEvent:
 		glog.Infof("It's a Note event")
-		s.handleNote(r)
+		s.handleNote(b)
 	case MergeRequestHookEvent:
 		glog.Infof("It's a Merge Request event")
-		s.handleMergeRequest(r)
+		s.handleMergeRequest(b)
 	case IssueHookEvent:
 		glog.Infof("It's a Issue event")
 	default:
